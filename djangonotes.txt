@@ -1,0 +1,125 @@
+djnago project :
+
+setup the environment, setup the app
+create the urls.py in the app
+update the settings in the project directory just after creating the app
+http requests and rendering in the views
+creating the view functions/classes
+creating the templates directory that has all the html templates 'app/templates/app/files.html'r
+writing the DTL codes in the templates for the modification of the templates
+creation of the base template and declaring the block : that allows all other child templates to inherit the template features of the base templates
+add some dummy data for the testing for the time being
+then add the bootstrap starter page for the ease of usage of the bootstrap classes to the base templates
+
+bootstrap 5.3 didnt work for me so i tried 4.0 instead
+
+create a static cirectory for the css files used in there 'app/static/app/file.css'
+load those static files to the base template
+remember to use the DTL frequently
+design the html part of the home page as wished with the help of the bootstrap classes
+add the article structure for the home page to seperate each posts from each other
+check for teh hardcoded urls in the templates and correct them with the DTL
+
+creating the superuser:
+makemigrations command , if no changes are seen then
+migrate command will migrate all the usefull files
+then the command createsuperuser; this will create a query once the name and the password is entered
+django handles the hashing of the password.
+
+to create the post and not rely on the dummy data Django has the ORM- Object Relational Mapper
+using the sqlite3 for the development, and postgresql for the production
+    database structures as -> classes a.k.a models
+    including the django.contrib.auth.models lets users have the authorities over their posts and this is a many to one model
+
+runnig the 'makemigrations' will create a model that can execute those commands and when 'migrate' is run the file is written and saved
+by running the 'sqlmigrate' the sql codebase table is created that helps to write the query into the database {though you dontknow shit about sql}
+Shell operations to look at the readable SQL queries
+the data created in the shell is the actual data and we use it as the actual data insteadof teh dummy data
+
+create the user app to handle the frontend of the user login modify and logout page
+!alway remember to register the created app in the settings.py of the project folder!
+
+instead of creating one's  own form django has the UserCreationForm use it to create a view with the render request
+create the template that is the extension of the base templates add the csrf_token for the security and the form structure
+form structure for the sign-in and sign-up
+add the url to the url patterns of the register templates
+take care of the HTTP request of POST for the form submission
+insert the condition blocks for the POST request and the flash message and save the credential in the form
+create a forms handling python file that has the views and the models of the UserCreationForm {class meta here gives the model namespace.}
+to style the form properly and present the error messages easly in the noticable colurs we use another app in the django called CRISPY FORMS, add the CRISPY_FORMS to the list of the installed apps.
+!!! make sure to check the path of the crispy forms during the installation {may require manually adding the paths in the settings.}
+
+add the path to the url patterns the urls of the login, logout and create the login and logout htmls
+while working with the logout form it may throw a status code of 405 if using the djang versions that are higher than 4 or 5
+{
+    because,
+    unlike the earlier versions from the django the logout endpoint can't be used by the urls method by the GET
+    in the current versions the endpoint can be accessed by the POST method
+    it can be fixed by including the view of the logout itself and changing the path in the project/urls.py
+
+    }
+change the nav bar in the base template accordingly
+to add the profile
+        create a profile view in the views file of the users
+        add the profile button to the nav bar
+        create a html template
+        and specify the path in the url patterns of the project directory
+        add the decorators to the profile view for the additional functionalities
+        to avoid or correct the search path conflict add the path directly to the settings file of the project
+add the models onetoOne so that when the users delete their account or has been deleted then the profile shall get deleted with their account and add the CASCADE{so that is the user is deleted then profile should be deleted too not the other way around}
+add the dunder str method for the formatted representation of the profile
+ (always apply the migrations for the impletation of the models are to make the model take actions)
+ (we might want to install the library pillow for smoother imaage handling)
+after creating the model registering in the admin.py is mandatory
+
+after the creation of the user profile with the profile picture the pictures are stored in the profile_pics{newly created} directory so to direct any of the media files to the proper path we add MEDIA_ROOT and MEDIA_URL to the settings.py in the project directory
+this will create the media directory in the main project folder and directs the media files in the profile
+importing the static and the settings from django.conf and its sub directories, by adding it to the url patterns lsit to acsess it in the browser {if there is no pic uploaded then it uses the the media/defualt.jpg}
+create a signal.py file to send the signal when the create profile is initiated to create and save the profiles without being the necessity of the admin page{functions : create_profile, save_profile}
+
+to update the user profiles:
+    create new classes for the userupdate and profileupdate in the forms.py and import them to the views.py
+        and in the previously made profile method add the instances of the forms that are imported in the form of the key value pairs
+
+        add the same form that was in the register.html to the profile.html and change the {{ forms|crispy }} -> {{u_forms | crispy}} and create another instance with {{p_form | crispy}}
+            that makes the user view them as one , !! dont forget to add the 'enctype' for the form if not added the images uploaded wont be saved !!
+    for the form validation and to guess the POST or GET requests and to display the user_creation_form if the user is not registered and to display the user_update_form if the user is already registered in the views.py and also add the flash messages
+    ##change the setting so that the fields can be updated individually##
+    add the check box for the removal of the profile pic if not needed and can be set to the default
+    remember to use the multipart/form-data as the enctype{cause if not used then the form seems to work but with the issues in the saving of the data}
+
+    there are many methods to resize the profile picture of the account but its easier to go with pillow module open the image resize and save it to the same path to overwrite the image
+
+//class based views:
+//    in the blog views the class PostListView is created by importing it from the views.generic ListViews{
+//        they provide a lot of functionalities and are helpful in handling the backend stuff better
+//        there are lots of class based views like : ListViews, DetailViews, CreateViews, DeleteViews, UpdateViews ..... but they also require a lot of conventions to look for so, we can explicitly redirect it to the existing template by adding the statement ```template_name = "path to the template"```
+//    } since its the ListViews we are using in the class it looks for the name list in the template which is by the name posts we can change it to lists in the respective template all over again or just add the statement ```context_object_name = "posts"``` in the class
+//
+//    the ordering of the posts can be managed according to the dates they are posted from newest to oldest or vice-versa just by adding the statement ```ordering = ['date_posted']``` with the change in the sign to reverse the ordering
+//    we are using the DetailView for the viewing of the particular individual post and it should be added to the url patterns using its id as the part of the endpoint as 'post/<int:pk>' where the pk is the primary key of the post{we can also add a different thing but that should be cahnged in the attributes of the class as well}
+//    every class view expects the template that it renders to be of the form <app>/<model>_<viewtype>.html we can either explicitly add the template_name attribute to the calss of create one to match the default conventions
+//        and in the form it is almost as same as the home.html template but it expects to pass the object to it so change it to objects from the posts and add the url to the href as the post.id to navigate to the individual posts by clicking on the title of the post
+
+ Class-based views for CRUD:
+    CreateView & UpdateView:
+        These views handle the forms automatically. Use 'fields' to specify which fields of the model to show.
+        To set the author of a post automatically, override form_valid(self, form) and set form.instance.author = self.request.user.
+        Success redirection: By default, it looks for a 'get_absolute_url' method in the Model.
+    DeleteView:
+        Expects a confirmation template (<app>/<model>_confirm_delete.html).
+        Requires a success_url to redirect to after deletion.
+    Mixins for Security:
+        LoginRequiredMixin: Add this to class views (like PostCreateView) to ensure only logged-in users can access them.
+        UserPassesTestMixin: Use this to ensure only the author of a post can update or delete it by overriding test_func().
+Pagination:
+    Add 'paginate_by = <number>' to a ListView.
+    In the template, use the 'is_paginated', 'page_obj', and 'paginator' objects to create navigation buttons.
+Search Functionality:
+    Override get_queryset() in ListView to filter results based on a GET parameter (e.g., queryset.filter(title__icontains=query)).
+User-Specific Posts:
+    Create a ListView that filters the queryset by the 'username' passed in the URL (using get_object_or_404(User, username=...)).
+Password Reset Workflow:
+    Django provides built-in views: PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, and PasswordResetCompleteView.
+    Templates must be provided for each step.
+    For development, use the console email backend in settings.py: EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

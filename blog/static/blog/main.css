@@ -34,14 +34,15 @@ ul {
     border: 1px solid #dddddd;
     border-radius: 20px;
     margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .article-title {
-    color: #444444;
+    color: #3253d5;
 }
 
 a.article-title:hover {
-    color: #428bca;
+    color: #3253d5;
     text-decoration: none;
 }
 
@@ -62,8 +63,12 @@ a.article-title:hover {
     border-bottom: 1px solid #e3e3e3
 }
 
+.article-metadata a {
+    color: #3253d5;
+}
+
 .article-metadata a:hover {
-    color: #333;
+    color: #3253d5;
     text-decoration: none;
 }
 

@@ -33,7 +33,7 @@ def profile(request):
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
-            messages.success(request, 'Updating the profile doesnt make you look any smarter man')
+            messages.success(request, 'Your profile has been updated successfully!')
             return redirect('profile')
 
     else:
