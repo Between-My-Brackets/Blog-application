@@ -28,8 +28,11 @@ class PostListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         query = self.request.GET.get('q')
+        category = self.request.GET.get('category')
         if query:
             queryset = queryset.filter(title__icontains=query)
+        if category:
+            queryset = queryset.filter(category__name__iexact=category)
         return queryset
 
 class UserPostListView(ListView):

@@ -1,90 +1,54 @@
 {% extends "blog/base.html"%}
 {% block content %}
-    <div class="mb-12">
-        <h1 class="text-3xl lg:text-4xl font-heading font-bold text-slate-800 mb-2">
-            Chronicles by <span class="text-primary tracking-tight">{{ view.kwargs.username }}</span>
-        </h1>
-        <p class="text-slate-500 font-medium uppercase tracking-widest text-xs">
-            Viewing {{ page_obj.paginator.count }} published articles
+    <div class="mb-20">
+        <div class="flex items-center gap-6 mb-8">
+            <img src="{{ posts.0.author.profile.image.url }}" class="w-16 h-16 rounded-full grayscale">
+            <div>
+                <h1 class="text-3xl heading-serif">{{ view.kwargs.username }}</h1>
+                <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">Contributor — {{ page_obj.paginator.count }} Articles</p>
+            </div>
+        </div>
+        <p class="text-sm text-gray-500 max-w-xl leading-relaxed">
+            Archives and collected works by {{ view.kwargs.username }}. Exploring the boundaries of publishing through minimal interfaces.
         </p>
     </div>
 
-    <!-- User Posts Feed -->
-    <div class="space-y-12">
+    <div class="space-y-4">
         {% for post in posts %}
-            <article class="group relative bg-white border border-slate-200 rounded-3xl p-1 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden">
-                <div class="p-8">
-                    <div class="flex items-center justify-between mb-8">
-                        <div class="flex items-center gap-4">
-                            {% if post.author.profile %}
-                                <img class="avatar group-hover:scale-105 transition-transform" src="{{ post.author.profile.image.url }}" alt="{{ post.author }}">
-                            {% else %}
-                                <div class="avatar bg-slate-100 flex items-center justify-center text-slate-400 font-bold">
-                                    {{ post.author.username|slice:":1"|upper }}
-                                </div>
-                            {% endif %}
-                            <div>
-                              <span class="text-sm font-bold text-slate-900">{{ post.author }}</span>
-                              <div class="flex items-center gap-2 text-xs text-slate-400 font-medium tracking-wide">
-                                <span>{{ post.date_posted|date:"M d, Y" }}</span>
-                                <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                                <span>{{ post.read_time }} min read</span>
-                              </div>
-                            </div>
-                        </div>
-                        {% if post.category %}
-                            <span class="badge-category">{{ post.category }}</span>
-                        {% endif %}
-                    </div>
-                    
-                    <h2 class="text-2xl lg:text-3xl font-heading font-bold mb-4 leading-tight group-hover:text-primary transition-colors">
-                        <a href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
-                    </h2>
-                    
-                    <p class="text-slate-500 leading-relaxed mb-10 max-w-2xl line-clamp-3">
-                        {{ post.content|truncatewords:40 }}
-                    </p>
+            <article class="post-card-subtle flex flex-col gap-4">
+                <div class="flex items-center gap-3 text-[10px] text-gray-400 uppercase tracking-[0.2em] font-bold">
+                    <span>{{ post.date_posted|date:"M d, Y" }}</span>
+                    <span class="w-1 h-1 bg-gray-200 rounded-full"></span>
+                    <span>{{ post.read_time }} min read</span>
+                </div>
+                
+                <h2 class="text-2xl md:text-3xl heading-serif group-hover:underline">
+                    <a href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
+                </h2>
+                
+                <p class="text-gray-500 text-sm leading-relaxed max-w-2xl">
+                    {{ post.content|truncatewords:30 }}
+                </p>
 
-                    <div class="flex items-center">
-                        <a href="{% url 'post-detail' post.id %}" class="flex items-center gap-2 text-sm font-bold text-slate-900 hover:gap-4 transition-all group/link">
-                            Read More
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4 text-primary">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                            </svg>
-                        </a>
+                <div class="mt-4 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-gray-300">Article</span>
                     </div>
+                    {% if post.category %}
+                        <span class="text-[9px] border border-gray-200 px-2 py-0.5 rounded-sm uppercase tracking-tighter text-gray-400">{{ post.category }}</span>
+                    {% endif %}
                 </div>
             </article>
         {% endfor %}
     </div>
 
-    <!-- Pagination (using same style as home.html) -->
     {% if is_paginated %}
-      <div class="flex justify-center items-center space-x-3 mt-16">
+      <div class="flex gap-4 mt-20 pt-10 border-t border-gray-100">
         {% if page_obj.has_previous %}
-          <a class="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600 transition-all font-bold" href="?page=1">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" /></svg>
-          </a>
-          <a class="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600 transition-all font-bold" href="?page={{ page_obj.previous_page_number }}">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-          </a>
+          <a class="text-xs font-bold uppercase tracking-widest hover:underline" href="?page={{ page_obj.previous_page_number }}">Newer</a>
         {% endif %}
-
-        {% for num in page_obj.paginator.page_range %}
-          {% if page_obj.number == num %}
-            <span class="w-10 h-10 flex items-center justify-center bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/20">{{ num }}</span>
-          {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-            <a class="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600 transition-all font-bold" href="?page={{ num }}">{{ num }}</a>
-          {% endif %}
-        {% endfor %}
-
         {% if page_obj.has_next %}
-          <a class="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600 transition-all font-bold" href="?page={{ page_obj.next_page_number }}">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-          </a>
-          <a class="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600 transition-all font-bold" href="?page={{ page_obj.paginator.num_pages }}">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" /></svg>
-          </a>
+          <a class="text-xs font-bold uppercase tracking-widest hover:underline" href="?page={{ page_obj.next_page_number }}">Older</a>
         {% endif %}
       </div>
     {% endif %}

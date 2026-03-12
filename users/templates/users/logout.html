@@ -1,9 +1,13 @@
-{% extends "blog/base.html"%}
-{% block content%}
-    <h2>Skadoosh....!</h2>
-        <div class="border-top pt-3">
-            <small class="text-muted">
-                <a class="ml-2" href="{% url 'login' %}">Sign-IN again</a>
-            </small>
-        </div>
-{%endblock content%}
+{% extends "blog/base.html" %}
+{% block content %}
+    <div class="max-w-md fade-in">
+        <header class="mb-12">
+            <h1 class="text-3xl heading-serif mb-2">Departed</h1>
+            <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">You have securely signed out.</p>
+        </header>
+        <p class="text-sm text-gray-500 leading-relaxed mb-10">
+            Thank you for your contributions. You are always welcome back to the archive.
+        </p>
+        <a href="{% url 'login' %}" class="btn-minimal rounded-sm py-3 px-8 text-xs inline-block">Sign In Again</a>
+    </div>
+{% endblock content %}
