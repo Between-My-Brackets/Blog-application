@@ -2,29 +2,37 @@
 {% load tailwind_filters %}
 
 {% block content %}
-    <div class="fade-in">
-        <header class="flex flex-col md:flex-row items-center gap-10 mb-20 border-b border-gray-100 pb-16">
-            <img class="w-24 h-24 rounded-full grayscale border border-gray-200" src="{{ user.profile.image.url }}" alt="{{ user.username }}">
+    <div class="bg-white border border-slate-200 rounded-[2.5rem] p-10 shadow-sm relative overflow-hidden">
+        <header class="flex flex-col md:flex-row items-center gap-8 mb-12 border-b border-slate-100 pb-12">
+            <div class="relative">
+                <img class="w-32 h-32 rounded-full border-4 border-white shadow-xl" src="{{ user.profile.image.url }}" alt="{{ user.username }}">
+                <div class="absolute -bottom-2 -right-2 bg-indigo-500 text-white p-2 rounded-lg shadow-lg">
+                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                </div>
+            </div>
             <div class="text-center md:text-left">
-                <h1 class="text-4xl heading-serif mb-2">{{ user.username }}</h1>
-                <p class="text-xs text-gray-400 font-bold uppercase tracking-widest underline mb-4">{{ user.email }}</p>
-                <span class="text-[9px] px-3 py-1 border border-gray-200 text-gray-400 uppercase tracking-widest font-bold">CONTRIBUTOR STATUS: ACTIVE</span>
+                <h1 class="text-4xl heading-serif text-slate-900 mb-1">{{ user.username }}</h1>
+                <p class="text-slate-500 font-medium mb-4">{{ user.email }}</p>
+                <span class="px-4 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-bold rounded-full border border-indigo-100 uppercase tracking-widest">Active Contributor</span>
             </div>
         </header>
 
         <div class="max-w-xl">
-            <h2 class="text-lg font-bold uppercase tracking-widest mb-10 pb-2 border-b-2 border-black inline-block">Refine Identity</h2>
+            <h2 class="text-xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                <i data-lucide="settings" class="w-5 h-5 text-indigo-500"></i>
+                Account Settings
+            </h2>
             
-            <form method="POST" enctype="multipart/form-data" class="space-y-10">
+            <form method="POST" enctype="multipart/form-data" class="space-y-8">
                 {% csrf_token %}
-                <div class="space-y-8">
+                <div class="space-y-6">
                     {{ u_form|crispy }}
                     {{ p_form|crispy }}
                 </div>
                 
-                <div class="pt-10">
-                    <button class="btn-minimal rounded-sm px-12 py-4" type="submit">
-                        Update
+                <div class="pt-8 border-t border-slate-100">
+                    <button class="btn-premium px-12 py-4" type="submit">
+                        Save Changes
                     </button>
                 </div>
             </form>

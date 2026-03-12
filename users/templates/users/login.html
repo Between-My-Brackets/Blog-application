@@ -2,27 +2,27 @@
 {% load tailwind_filters %}
 
 {% block content %}
-    <div class="max-w-md fade-in">
-        <header class="mb-12">
-            <h1 class="text-3xl heading-serif mb-2">Welcome Back</h1>
-            <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">Please identify yourself.</p>
+    <div class="max-w-md mx-auto bg-white border border-slate-200 rounded-[2rem] p-10 shadow-sm">
+        <header class="mb-8">
+            <h1 class="text-3xl heading-serif text-slate-900 mb-2">Welcome Back</h1>
+            <p class="text-slate-500 font-medium">Please sign in to your dashboard.</p>
         </header>
 
-        <form method="POST" class="space-y-8">
+        <form method="POST" class="space-y-6">
             {% csrf_token %}
-            <div class="space-y-6">
+            <div class="space-y-4">
                 {{ form|crispy }}
             </div>
             
-            <button class="w-full btn-minimal rounded-sm py-4" type="submit">
+            <button class="w-full btn-premium py-4 flex justify-center" type="submit">
                 Sign In
             </button>
         </form>
 
-        <div class="mt-12 pt-8 border-t border-gray-100 flex flex-col gap-4">
-            <a class="text-[10px] font-bold text-gray-400 hover:text-black uppercase tracking-widest" href="{% url 'password_reset' %}">Forgot security key?</a>
-            <p class="text-xs text-gray-500">
-                New here? <a class="font-bold text-black underline" href="{% url 'register' %}">Join the community</a>
+        <div class="mt-10 pt-8 border-t border-slate-100 text-center space-y-4">
+            <a class="block text-xs font-bold text-indigo-600 hover:text-indigo-700 uppercase tracking-widest" href="{% url 'password_reset' %}">Forgot Password?</a>
+            <p class="text-sm text-slate-500">
+                No account? <a class="font-bold text-slate-900 hover:text-indigo-600 transition" href="{% url 'register' %}">Join Now</a>
             </p>
         </div>
     </div>

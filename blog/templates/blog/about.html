@@ -1,34 +1,53 @@
 {% extends "blog/base.html" %}
 {% block content %}
-    <div class="fade-in">
-        <header class="mb-20">
-            <h1 class="text-5xl md:text-6xl heading-serif mb-8 leading-tight">A manifesto for <br><span class="italic">slow publishing</span>.</h1>
-            <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold border-l-2 border-black pl-4">Established 2026</p>
-        </header>
-        
-        <div class="prose-minimal space-y-12 mb-24">
-            <p class="text-xl md:text-2xl leading-relaxed">
-                In an era of relentless noise and fleeting attention, we choose the opposite. Minimal Blog is a sanctuary for ideas that require time to ferment and clarity to express.
-            </p>
-            <p>
-                We believe that the interface should never compete with the insight. By stripping away the non-essential—the heavy shadows, the vibrant distractors, the complex layouts—we allow the word to regain its authority.
-            </p>
-        </div>
+    <div class="bg-white border border-slate-200 rounded-[2.5rem] p-12 lg:p-16 shadow-sm overflow-hidden relative">
+        <!-- Decoration -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-50 rounded-full blur-3xl -mr-32 -mt-32"></div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24">
-            <div class="border-t border-gray-100 pt-8">
-                <h3 class="text-xs font-bold uppercase tracking-[0.2em] mb-4">The Medium</h3>
-                <p class="text-sm text-gray-500 leading-relaxed font-sans">Focus on typography and whitespace. A digital leaf for your thoughts.</p>
+        <div class="relative z-10">
+            <header class="mb-12">
+                <span class="text-xs font-bold text-indigo-600 uppercase tracking-[0.2em] mb-4 block">The Mission</span>
+                <h1 class="text-5xl lg:text-6xl heading-serif text-slate-900 leading-tight">
+                    Publishing with <span class="italic text-indigo-600">intent</span>.
+                </h1>
+            </header>
+            
+            <div class="prose prose-slate lg:prose-lg max-w-none text-slate-600 leading-relaxed mb-16 font-sans">
+                <p class="text-xl text-slate-900 font-medium mb-8">
+                    DjangoBlog is a curated archive where clarity meets conversation.
+                </p>
+                <p>
+                    We believe in the "Balanced Premium" experience. A space that is minimal yet expressive, professional yet inviting. Our platform is built for independent thinkers who value high-signal journals over ephemeral noise.
+                </p>
             </div>
-            <div class="border-t border-gray-100 pt-8">
-                <h3 class="text-xs font-bold uppercase tracking-[0.2em] mb-4">The Community</h3>
-                <p class="text-sm text-gray-500 leading-relaxed font-sans">A curated room of independent contributors sharing high-signal journals.</p>
-            </div>
-        </div>
 
-        <div class="pt-10 border-t border-gray-100">
-            <h2 class="text-lg heading-serif mb-10 italic">Ready to contribute?</h2>
-            <a href="{% url 'register' %}" class="btn-minimal rounded-sm px-10 py-4 inline-block">Join the Archive</a>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                <div class="p-8 bg-slate-50 rounded-3xl border border-slate-100">
+                    <div class="w-12 h-12 bg-white text-indigo-500 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+                        <i data-lucide="users" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">A Shared Journal</h3>
+                    <p class="text-slate-500 text-sm">Join a community of experts and hobbyists sharing deep insights across industries.</p>
+                </div>
+                
+                <div class="p-8 bg-slate-50 rounded-3xl border border-slate-100">
+                    <div class="w-12 h-12 bg-white text-indigo-500 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+                        <i data-lucide="zap" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Precision Built</h3>
+                    <p class="text-slate-500 text-sm">Underpinned by modern Django patterns for performance, security, and long-term stability.</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center gap-6 p-8 bg-slate-900 rounded-[2.5rem] text-white">
+                <div class="flex-grow text-center sm:text-left">
+                    <h4 class="text-xl font-bold mb-1">Ready to share your voice?</h4>
+                    <p class="text-slate-400 text-sm">Become a contributor in less than a minute.</p>
+                </div>
+                <a href="{% url 'register' %}" class="btn-premium bg-indigo-500 hover:bg-indigo-600 shadow-indigo-500/20 px-8 py-4">
+                    Create Account
+                </a>
+            </div>
         </div>
     </div>
 {% endblock content %}

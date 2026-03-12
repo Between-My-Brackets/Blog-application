@@ -1,13 +1,14 @@
 {% extends "blog/base.html" %}
 {% block content %}
-    <div class="max-w-md fade-in">
-        <header class="mb-12">
-            <h1 class="text-3xl heading-serif mb-2">Departed</h1>
-            <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">You have securely signed out.</p>
-        </header>
-        <p class="text-sm text-gray-500 leading-relaxed mb-10">
-            Thank you for your contributions. You are always welcome back to the archive.
-        </p>
-        <a href="{% url 'login' %}" class="btn-minimal rounded-sm py-3 px-8 text-xs inline-block">Sign In Again</a>
+    <div class="max-w-2xl mx-auto bg-white border border-slate-200 rounded-[2.5rem] p-12 shadow-sm text-center">
+        <div class="w-20 h-20 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 mx-auto mb-10">
+            <i data-lucide="log-out" class="w-10 h-10"></i>
+        </div>
+        <h1 class="text-3xl md:text-4xl heading-serif text-slate-900 mb-4">Signed Out</h1>
+        <p class="text-slate-500 font-medium mb-12">You have been securely signed out of your dashboard.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'login' %}" class="btn-premium px-10 py-4">Sign In Now</a>
+            <a href="{% url 'blog-home' %}" class="px-10 py-4 bg-slate-50 text-slate-600 rounded-xl font-bold text-sm hover:bg-slate-100 transition">Back to Home</a>
+        </div>
     </div>
 {% endblock content %}

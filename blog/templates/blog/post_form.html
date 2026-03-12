@@ -2,23 +2,25 @@
 {% load tailwind_filters %}
 
 {% block content %}
-    <div class="fade-in">
-        <header class="mb-16">
-            <h1 class="text-4xl heading-serif mb-4">Compose</h1>
-            <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">Write with clarity. Share with intent.</p>
+    <div class="bg-white border border-slate-200 rounded-[2rem] p-8 md:p-12 shadow-sm">
+        <header class="mb-10">
+            <h1 class="text-3xl md:text-4xl heading-serif text-slate-900 mb-3">
+                {% if object %} Update Article {% else %} New Contribution {% endif %}
+            </h1>
+            <p class="text-slate-500 font-medium">Shape your thoughts into a professional journal entry.</p>
         </header>
 
-        <form method="POST" class="space-y-12">
+        <form method="POST" class="space-y-8">
             {% csrf_token %}
-            <div class="prose-minimal space-y-8">
+            <div class="space-y-6">
                 {{ form|crispy }}
             </div>
             
-            <div class="flex items-center gap-10 pt-10 border-t border-gray-100">
-                <button class="btn-minimal rounded-sm" type="submit">
-                    Publish Essay
+            <div class="flex items-center gap-6 pt-6 border-t border-slate-100">
+                <button class="btn-premium py-3.5 px-10" type="submit">
+                    Publish Journal
                 </button>
-                <a href="{% url 'blog-home' %}" class="text-[10px] font-bold text-gray-400 hover:text-black transition uppercase tracking-widest">Discard</a>
+                <a href="{% url 'blog-home' %}" class="text-sm font-bold text-slate-400 hover:text-slate-600 transition uppercase tracking-widest">Cancel</a>
             </div>
         </form>
     </div>

@@ -2,26 +2,26 @@
 {% load tailwind_filters %}
 
 {% block content %}
-    <div class="max-w-md fade-in">
-        <header class="mb-12">
-            <h1 class="text-3xl heading-serif mb-2">Join</h1>
-            <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">Become part of the archive.</p>
+    <div class="max-w-md mx-auto bg-white border border-slate-200 rounded-[2rem] p-10 shadow-sm">
+        <header class="mb-8">
+            <h1 class="text-3xl heading-serif text-slate-900 mb-2">Become a Member</h1>
+            <p class="text-slate-500 font-medium">Join the archive of modern journals.</p>
         </header>
 
-        <form method="POST" class="space-y-8">
+        <form method="POST" class="space-y-6">
             {% csrf_token %}
-            <div class="space-y-6">
+            <div class="space-y-4">
                 {{ form|crispy }}
             </div>
             
-            <button class="w-full btn-minimal rounded-sm py-4" type="submit">
+            <button class="w-full btn-premium py-4 flex justify-center" type="submit">
                 Create Account
             </button>
         </form>
 
-        <div class="mt-12 pt-8 border-t border-gray-100">
-            <p class="text-xs text-gray-500">
-                Already registered? <a class="font-bold text-black underline" href="{% url 'login' %}">Sign In</a>
+        <div class="mt-10 pt-8 border-t border-slate-100 text-center">
+            <p class="text-sm text-slate-500">
+                Already have an account? <a class="font-bold text-slate-900 hover:text-indigo-600 transition" href="{% url 'login' %}">Sign In</a>
             </p>
         </div>
     </div>
