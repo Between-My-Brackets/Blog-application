@@ -28,3 +28,10 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
+
+    @property
+    def read_time(self):
+        # Average reading speed: 200 words per minute
+        word_count = len(self.content.split())
+        read_time_min = word_count / 200
+        return max(1, round(read_time_min))

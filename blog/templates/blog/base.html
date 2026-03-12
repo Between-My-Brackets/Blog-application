@@ -2,92 +2,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A professional, minimal blog built with Django and Tailwind CSS.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            DEFAULT: '#2563eb',
+                            hover: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
     <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
 
-    {% if title%}
-        <title>My Blog - {{title}}</title>
-    {%else%}
-        <title>My Blog</title>
-    {%endif%}
+    <title>{% if title %}Django Blog - {{ title }}{% else %}Django Blog{% endif %}</title>
 </head>
-<body>
-    <header class="site-header">
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-steel custom-navbar">
-            <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="{% url 'blog-home' %}">
-                    <i class="fas fa-feather-alt mr-2"></i> My Blog
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
-                        aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<body class="bg-slate-50 text-slate-900 font-sans selection:bg-blue-100 selection:text-blue-900">
+    <!-- Navigation -->
+    <header class="glass sticky top-0 z-50 w-full">
+      <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a class="text-2xl font-heading font-bold text-slate-800 tracking-tight flex items-center gap-2 group" href="{% url 'blog-home' %}">
+          <span class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white text-sm group-hover:rotate-12 transition-transform">DB</span>
+          DjangoBlog
+        </a>
+        
+        <div class="hidden md:flex items-center space-x-8">
+          <a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="{% url 'blog-home' %}">Home</a>
+          <a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="{% url 'blog-about' %}">About</a>
+          {% if user.is_authenticated %}
+            <a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="{% url 'post-create' %}">New Post</a>
+            <div class="w-px h-4 bg-slate-200"></div>
+            <a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="{% url 'profile' %}">Profile</a>
+            <form action="{% url 'logout' %}" method="post" class="inline">
+                {% csrf_token %}
+                <button type="submit" class="text-sm font-bold text-slate-800 hover:text-red-500 transition-colors">Logout</button>
+            </form>
+          {% else %}
+            <a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="{% url 'login' %}">Login</a>
+            <a class="px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary-hover transition-all shadow-md hover:shadow-lg active:scale-95" href="{% url 'register' %}">Get Started</a>
+          {% endif %}
+        </div>
 
-                <div class="collapse navbar-collapse" id="navbarToggle">
-                    <div class="navbar-nav mr-auto">
-                        <a class="nav-item nav-link" href="{% url 'blog-home' %}"><i class="fas fa-home mr-1"></i>Home</a>
-                        <a class="nav-item nav-link" href="{% url 'blog-about' %}"><i class="fas fa-info-circle mr-1"></i>About</a>
-                    </div>
-                    <form class="form-inline my-2 my-lg-0" action="{% url 'blog-home' %}">
-                      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q">
-                      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-
-                    <div class="navbar-nav">
-                        {% if user.is_authenticated %}
-                            <a class="nav-item nav-link" href="{% url 'post-create' %}"><i class="fas fa-plus-square mr-1"></i>New Post</a>
-                            <a class="nav-item nav-link" href="{% url 'profile' %}"><i class="fas fa-user-circle mr-1"></i>Profile</a>
-                            <a class="nav-item nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt mr-1"></i>Logout</a>
-                        {% else %}
-                            <a class="nav-item nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt mr-1"></i>Login</a>
-                            <a class="nav-item nav-link" href="{% url 'register' %}"><i class="fas fa-user-plus mr-1"></i>Register</a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <!-- Mobile Menu Placeholder -->
+        <div class="md:hidden text-slate-800">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+        </div>
+      </nav>
     </header>
 
-    <main role="main" class="container">
-        <div class="row">
-            {% block content_layout %}
-                <div class="col-md-8">
-                    {% if messages %}
-                      {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}">
-                          {{ message }}
-                        </div>
-                      {% endfor %}
-                    {% endif %}
-                    {% block content %}{% endblock %}
-                </div>
-                <div class="col-md-4">
-                    <div class="content-section">
-                        <h3>Our Sidebar</h3>
-                        <p class='text-muted'>You can put any information here you'd like.
-                            <ul class="list-group">
-                                <a class="list-group-item list-group-item-light" href="{% url 'blog-recent' %}">Recent Posts</a>
-                                <li class="list-group-item list-group-item-light">Announcements</li>
-                                <li class="list-group-item list-group-item-light">Calendars</li>
-                                <li class="list-group-item list-group-item-light">etc</li>
-                            </ul>
-                        </p>
-                    </div>
-                </div>
-            {% endblock %}
+    <main class="container mx-auto px-6 py-12 lg:py-16">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <!-- Content Area -->
+        <div class="lg:col-span-8 animate-fade-in">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="p-4 mb-8 rounded-xl border flex items-center gap-3 {% if message.tags == 'success' %}bg-green-50 text-green-700 border-green-200{% else %}bg-blue-50 text-blue-700 border-blue-200{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="text-sm font-medium">{{ message }}</span>
+              </div>
+            {% endfor %}
+          {% endif %}
+          
+          {% block content %}{% endblock %}
         </div>
+
+        <!-- Sidebar -->
+        <aside class="lg:col-span-4 space-y-8 animate-fade-in" style="animation-delay: 0.1s">
+          <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+            <h3 class="text-lg font-heading font-bold mb-6 text-slate-800 uppercase tracking-widest text-xs">Stay Curious</h3>
+            <p class='text-slate-500 text-sm mb-8 leading-relaxed'>Welcome to our digital garden where we share thoughts, experiments, and stories from the world of web development.</p>
+            
+            <div class="space-y-4">
+               <h4 class="text-xs font-bold text-slate-400 uppercase tracking-tighter">Quick Links</h4>
+               <ul class="space-y-3">
+                 <li><a href="#" class="group flex items-center justify-between p-3 bg-slate-50 rounded-xl hover:bg-white hover:border-slate-200 border border-transparent transition-all">
+                    <span class="text-sm font-medium text-slate-700 group-hover:text-primary">Latest Chronicles</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-slate-300 group-hover:translate-x-1 transition-transform">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                 </a></li>
+                 <li><a href="#" class="group flex items-center justify-between p-3 bg-slate-50 rounded-xl hover:bg-white hover:border-slate-200 border border-transparent transition-all">
+                    <span class="text-sm font-medium text-slate-700 group-hover:text-primary">Topic Explorer</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-slate-300 group-hover:translate-x-1 transition-transform">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                 </a></li>
+               </ul>
+            </div>
+          </div>
+
+          <!-- Newsletter Card -->
+          <div class="bg-slate-900 p-8 rounded-2xl shadow-xl text-white relative overflow-hidden">
+            <div class="relative z-10">
+                <h3 class="text-xl font-heading font-bold mb-2">Weekly Brief</h3>
+                <p class="text-slate-400 text-sm mb-6">No spam, just pure intellectual value delivered to your inbox.</p>
+                <form class="space-y-3">
+                    <input type="email" placeholder="Email address" class="w-full bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 focus:ring-primary">
+                    <button class="w-full py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-100 transition-colors">Join 5,000+ Readers</button>
+                </form>
+            </div>
+            <!-- Decorative circle -->
+            <div class="absolute -top-20 -right-20 w-40 h-40 bg-primary/20 rounded-full blur-3xl"></div>
+          </div>
+        </aside>
+      </div>
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <footer class="border-t border-slate-200 bg-white py-12 mt-20">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-slate-400 text-sm">
+                &copy; 2026 DjangoBlog. Handcrafted with passion.
+            </div>
+            <div class="flex space-x-6">
+                <a href="#" class="text-slate-400 hover:text-primary transition-colors">Twitter</a>
+                <a href="#" class="text-slate-400 hover:text-primary transition-colors">GitHub</a>
+                <a href="#" class="text-slate-400 hover:text-primary transition-colors">RSS Feed</a>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>

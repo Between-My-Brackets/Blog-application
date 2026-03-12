@@ -1,39 +1,38 @@
 {% extends "blog/base.html" %}
-{% load crispy_forms_tags %}
+{% load tailwind_filters %}
 
-{% block content_layout %}
-    <div class="col-md-10 col-lg-8 mx-auto">
-        <div class="content-section auth-card p-5">
-            <div class="text-center mb-4">
-                <h2 class="mb-3" style="color: #3253d5;">Welcome Back!</h2>
-                <p class="text-muted">Sign in to your account</p>
+{% block content %}
+    <div class="max-w-xl mx-auto">
+        <div class="bg-white border border-slate-200 rounded-[2.5rem] p-8 lg:p-12 shadow-sm animate-fade-in relative overflow-hidden">
+            <!-- Background decorative element -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+
+            <div class="relative z-10">
+                <header class="mb-10">
+                    <h1 class="text-3xl font-heading font-bold text-slate-900 mb-2">Welcome <span class="text-primary italic">Back</span>.</h1>
+                    <p class="text-slate-500">Sign in to continue your creative journey.</p>
+                </header>
+
+                <form method="POST" class="space-y-6">
+                    {% csrf_token %}
+                    <div class="space-y-4">
+                        {{ form|crispy }}
+                    </div>
+                    
+                    <div class="pt-4">
+                        <button class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-primary transition-all shadow-xl shadow-slate-900/10 hover:shadow-primary/20 active:scale-95 flex items-center justify-center gap-2" type="submit">
+                            Sign In
+                        </button>
+                    </div>
+                </form>
+
+                <div class="mt-10 pt-8 border-t border-slate-100 flex flex-col gap-4 text-center">
+                    <a class="text-xs font-bold text-primary uppercase tracking-widest hover:text-primary-hover transition-colors" href="{% url 'password_reset' %}">Forgot Secret Key?</a>
+                    <p class="text-sm text-slate-500">
+                        New here? <a class="font-bold text-slate-900 hover:text-primary transition-colors" href="{% url 'register' %}">Create an account</a>
+                    </p>
+                </div>
             </div>
-
-            <form method="POST">
-                {% csrf_token %}
-                <div class="form-group">
-                    {{ form|crispy }}
-                </div>
-
-                <div class="form-group">
-                    <button class="btn btn-primary btn-block py-2 mb-4 mt-4" style="background-color: #3253d5; border-color: #3253d5;" type="submit">
-                        <i class="fas fa-sign-in-alt mr-2"></i>Sign In
-                    </button>
-                </div>
-
-                <div class="text-center mt-2">
-                    <small class="text-muted">
-                        <a href="{% url 'password_reset' %}" style="color: #3253d5;">Forgot Password?</a>
-                    </small>
-                </div>
-
-                <div class="border-top pt-3 text-center">
-                    <small class="text-muted">
-                        Dont have an account?
-                        <a href="{% url 'register' %}" class="ml-2" style="color: #3253d5; font-weight: 500;">Sign Up</a>
-                    </small>
-                </div>
-            </form>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

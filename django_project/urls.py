@@ -35,5 +35,8 @@ urlpatterns = [
     path('', include('blog.urls')),
 ]
 
+handler404 = 'blog.views.error_404'
+handler500 = 'blog.views.error_500'
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

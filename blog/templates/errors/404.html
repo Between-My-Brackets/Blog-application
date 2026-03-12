@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center py-20 text-center">
+    <h1 class="text-9xl font-extrabold text-blue-600 mb-4 animate-bounce">404</h1>
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">Page Not Found</h2>
+    <p class="text-gray-600 mb-10 max-w-md">
+        The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+    </p>
+    <a href="{% url 'blog-home' %}" class="px-8 py-3 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition-all transform hover:scale-105 shadow-lg">
+        Back to Home
+    </a>
+</div>
+{% endblock content %}

@@ -1,45 +1,96 @@
-{% extends "blog/base.html"%}
+{% extends "blog/base.html" %}
 {% block content %}
-    {% for post in posts %}
-
-        <article class="media content-section">
-            <!-- <img class="rounded-circle article-img" src="{{post.author.profile.image.url}}" > -->
-             {% if post.author.profile %}
-    <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
-{% else %}
-    <img class="rounded-circle article-img" src="/static/default.jpg">
-{% endif %}
-
-            <div class="media-body">
-                <div class="article-metadata">
-                    <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
-                    <small class="text-muted">{{ post.date_posted | date:"F d, Y"}}</small>
-                </div>
-                <h2><a class="article-title" href="{% url 'post-detail' post.id%}">{{ post.title }}</a></h2>
-                <p class="article-content">{{ post.content }}</p>
+    <!-- Hero / Search Section -->
+    <div class="mb-12">
+        <h1 class="text-4xl lg:text-5xl font-heading font-bold text-slate-800 mb-6 tracking-tight leading-tight">
+            Thoughtful articles for <span class="text-primary italic">modern creators</span>.
+        </h1>
+        <form method="GET" action="{% url 'blog-home' %}" class="relative group">
+            <div class="absolute inset-y-0 left-0 pl-1 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-slate-400 ml-4 group-focus-within:text-primary transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
             </div>
-        </article>
+            <input type="text" name="q" placeholder="Explore our library..." class="w-full pl-12 pr-32 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-slate-700">
+            <button type="submit" class="absolute right-2 top-2 px-6 py-2 bg-slate-900 text-white text-sm font-bold rounded-xl hover:bg-slate-800 transition-colors shadow-lg shadow-slate-900/10">Search</button>
+        </form>
+    </div>
 
-    {%endfor%}
+    <!-- Posts Feed -->
+    <div class="space-y-12">
+        {% for post in posts %}
+            <article class="group relative bg-white border border-slate-200 rounded-3xl p-1 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden">
+                <div class="p-8">
+                    <div class="flex items-center justify-between mb-8">
+                        <div class="flex items-center gap-4">
+                            <img class="avatar group-hover:scale-105 transition-transform" src="{{ post.author.profile.image.url }}" alt="{{ post.author }}">
+                            <div>
+                              <a class="text-sm font-bold text-slate-900 hover:text-primary transition-colors" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                              <div class="flex items-center gap-2 text-xs text-slate-400 font-medium tracking-wide">
+                                <span>{{ post.date_posted|date:"M d, Y" }}</span>
+                                <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                <span>{{ post.read_time }} min read</span>
+                              </div>
+                            </div>
+                        </div>
+                        {% if post.category %}
+                            <span class="badge-category">{{ post.category }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    <h2 class="text-2xl lg:text-3xl font-heading font-bold mb-4 leading-tight group-hover:text-primary transition-colors">
+                        <a href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
+                    </h2>
+                    
+                    <p class="text-slate-500 leading-relaxed mb-10 max-w-2xl line-clamp-3">
+                        {{ post.content|truncatewords:40 }}
+                    </p>
+
+                    <div class="flex items-center">
+                        <a href="{% url 'post-detail' post.id %}" class="flex items-center gap-2 text-sm font-bold text-slate-900 hover:gap-4 transition-all group/link">
+                            Full Article
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4 text-primary">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        {% empty %}
+            <div class="text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+                <p class="text-slate-400 font-medium">No posts found matching your search.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
     {% if is_paginated %}
-
-      {% if page_obj.has_previous %}
-        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-      {% endif %}
-
-      {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-          <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
-        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-          <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+      <div class="flex justify-center items-center space-x-3 mt-16">
+        {% if page_obj.has_previous %}
+          <a class="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600 transition-all font-bold" href="?page=1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" /></svg>
+          </a>
+          <a class="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600 transition-all font-bold" href="?page={{ page_obj.previous_page_number }}">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+          </a>
         {% endif %}
-      {% endfor %}
 
-      {% if page_obj.has_next %}
-        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-      {% endif %}
+        {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+            <span class="w-10 h-10 flex items-center justify-center bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/20">{{ num }}</span>
+          {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a class="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600 transition-all font-bold" href="?page={{ num }}">{{ num }}</a>
+          {% endif %}
+        {% endfor %}
 
+        {% if page_obj.has_next %}
+          <a class="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600 transition-all font-bold" href="?page={{ page_obj.next_page_number }}">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+          </a>
+          <a class="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600 transition-all font-bold" href="?page={{ page_obj.paginator.num_pages }}">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" /></svg>
+          </a>
+        {% endif %}
+      </div>
     {% endif %}
-{%endblock content%}
+{% endblock content %}
