@@ -1,0 +1,125 @@
+/* 
+   Subtle Minimal Blog Design System
+   Focus: Readability, Whitespace, and Soft Neutrals
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+    --bg-app: #ffffff;
+    --bg-subtle: #fcfcfc;
+    --text-primary: #1a1a1a;
+    --text-secondary: #555555;
+    --text-muted: #888888;
+    --accent: #1a1a1a; /* Minimal: use black as accent */
+    --accent-soft: #f0f0f0;
+    --border: #eeeeee;
+    --font-ui: 'Inter', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+}
+
+body {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.8;
+}
+
+/* Minimal Navigation */
+.nav-minimal {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-link-minimal {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-link-minimal:hover {
+    color: var(--text-primary);
+}
+
+/* Subtle Cards */
+.post-card-subtle {
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+    transition: opacity 0.3s ease;
+}
+
+.post-card-subtle:last-child {
+    border-bottom: none;
+}
+
+.post-card-subtle:hover {
+    opacity: 0.8;
+}
+
+/* Typography */
+.heading-serif {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+}
+
+/* Sidebar Styling */
+.sidebar-section {
+    margin-bottom: 3rem;
+}
+
+.sidebar-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.sidebar-link {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    padding: 0.5rem 0;
+    transition: all 0.2s ease;
+}
+
+.sidebar-link:hover {
+    color: var(--text-primary);
+    transform: translateX(4px);
+}
+
+/* Action Elements */
+.btn-minimal {
+    border: 1px solid var(--text-primary);
+    color: var(--text-primary);
+    padding: 8px 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-minimal:hover {
+    background: var(--text-primary);
+    color: #fff;
+}
+
+/* Prose for Blog Content */
+.prose-minimal {
+    font-family: var(--font-serif);
+    color: var(--text-primary);
+    font-size: 1.2rem;
+}
+
+/* Animations - keep them very subtle */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-out;
+}

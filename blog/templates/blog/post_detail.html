@@ -1,46 +1,49 @@
 {% extends "blog/base.html" %}
 {% block content %}
-  <article class="fade-in">
-    <header class="mb-16">
-        <div class="flex items-center gap-4 text-[10px] text-gray-400 uppercase tracking-[0.2em] font-bold mb-8">
-            <span>{{ object.date_posted|date:"F d, Y" }}</span>
-            <span class="w-1 h-1 bg-gray-200 rounded-full"></span>
-            <span>{{ object.read_time }} min read</span>
+  <article class="bg-white border border-slate-200 rounded-[2rem] p-8 md:p-12 shadow-sm">
+    <header class="mb-12 border-b border-slate-100 pb-12">
+        <div class="flex items-center gap-4 mb-6">
+            <a href="{% url 'blog-home' %}" class="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Explore Journal</a>
+            <span class="text-[11px] text-slate-400 font-bold uppercase tracking-widest">{{ object.date_posted|date:"F d, Y" }}</span>
         </div>
         
-        <h1 class="text-4xl md:text-6xl heading-serif mb-10 leading-tight">{{ object.title }}</h1>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl heading-serif text-slate-900 mb-8 leading-tight">{{ object.title }}</h1>
 
-        <div class="flex items-center justify-between border-y border-gray-100 py-6">
+        <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
-                <img src="{{ object.author.profile.image.url }}" class="w-10 h-10 rounded-full grayscale">
+                <img src="{{ object.author.profile.image.url }}" class="w-12 h-12 rounded-full border-2 border-white shadow-sm">
                 <div>
-                    <a class="text-xs font-bold uppercase tracking-widest hover:underline" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
-                    <p class="text-[10px] text-gray-400">Contributor</p>
+                    <a class="text-sm font-bold text-slate-900 border-b border-transparent hover:border-indigo-600 transition" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
+                    <p class="text-[11px] text-slate-400 font-medium">{{ object.read_time }} min read</p>
                 </div>
             </div>
             
             {% if object.author == user %}
-                <div class="flex gap-6">
-                    <a class="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black transition" href="{% url 'post-update' object.id %}">Edit</a>
-                    <a class="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-red-500 transition" href="{% url 'post-delete' object.id %}">Delete</a>
+                <div class="flex gap-4">
+                    <a class="p-2 bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-white border border-transparent hover:border-indigo-100 rounded-lg transition shadow-sm" href="{% url 'post-update' object.id %}">
+                        <i data-lucide="edit-3" class="w-4 h-4"></i>
+                    </a>
+                    <a class="p-2 bg-slate-50 text-slate-400 hover:text-red-500 hover:bg-white border border-transparent hover:border-red-100 rounded-lg transition shadow-sm" href="{% url 'post-delete' object.id %}">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </a>
                 </div>
             {% endif %}
         </div>
     </header>
 
-    <div class="prose-minimal mb-20">
+    <div class="prose prose-slate lg:prose-xl max-w-none text-slate-700 leading-relaxed font-serif text-lg md:text-xl selection:bg-indigo-100">
         {{ object.content|linebreaks }}
     </div>
 
-    <footer class="pt-20 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-10">
-        <a href="{% url 'blog-home' %}" class="text-[10px] font-bold uppercase tracking-widest flex items-center gap-3 group">
-            <i data-lucide="arrow-left" class="w-3 h-3 group-hover:-translate-x-1 transition-transform"></i>
-            Library
-        </a>
-        <div class="flex gap-8">
-            <button class="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black transition">Share on Twitter</button>
-            <button class="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black transition">Copy Link</button>
+    <footer class="mt-20 pt-10 border-t border-slate-100 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Share:</span>
+            <div class="flex gap-2">
+                <button class="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:border-indigo-600 transition"><i data-lucide="twitter" class="w-3.5 h-3.5"></i></button>
+                <button class="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:border-indigo-600 transition"><i data-lucide="link" class="w-3.5 h-3.5"></i></button>
+            </div>
         </div>
+        <a href="{% url 'blog-home' %}" class="text-xs font-bold text-indigo-600 hover:underline">Back to Archive</a>
     </footer>
   </article>
 {% endblock content %}
