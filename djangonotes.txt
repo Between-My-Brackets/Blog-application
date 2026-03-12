@@ -101,6 +101,23 @@ to update the user profiles:
 //    every class view expects the template that it renders to be of the form <app>/<model>_<viewtype>.html we can either explicitly add the template_name attribute to the calss of create one to match the default conventions
 //        and in the form it is almost as same as the home.html template but it expects to pass the object to it so change it to objects from the posts and add the url to the href as the post.id to navigate to the individual posts by clicking on the title of the post
 
+Switching to uv for Package Management:
+    uv is a significantly faster replacement for pip.
+    Initialize with 'uv init' and add packages using 'uv add <package>'.
+    Run Django commands using 'uv run python manage.py <command>'.
+    It uses a pyproject.toml and uv.lock to ensure reproducible environments.
+
+Implementing Categories:
+    Created a 'Category' model in models.py and linked it to 'Post' using a ForeignKey with 'on_delete=models.SET_NULL'.
+    This allows posts to remain even if their category is deleted.
+    Registered the 'Category' model in admin.py to manage them from the admin panel.
+    Updated PostCreateView and PostUpdateView 'fields' to include 'category', allowing users to select it in forms.
+
+Handling Data Integrity in Migrations:
+    If migrations fail due to 'IntegrityError' (invalid foreign keys), it usually means there is existing data pointing to non-existent records (e.g., an author_id that doesn't exist in the user table).
+    This can be fixed using raw SQL (via sqlite3) to update the invalid IDs to valid ones before re-running the migration.
+
+
  Class-based views for CRUD:
     CreateView & UpdateView:
         These views handle the forms automatically. Use 'fields' to specify which fields of the model to show.
@@ -123,3 +140,25 @@ Password Reset Workflow:
     Django provides built-in views: PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, and PasswordResetCompleteView.
     Templates must be provided for each step.
     For development, use the console email backend in settings.py: EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+Transitioning to Tailwind CSS:
+    Why Tailwind? Utility-first CSS allows for rapid UI development without leaving the HTML. It results in smaller CSS bundles and a more modern look compared to Bootstrap.
+    1. Installation: Install 'crispy-tailwind' using uv (uv add crispy-tailwind).
+    2. Configuration:
+        - Add 'crispy_tailwind' to INSTALLED_APPS in settings.py.
+        - Set CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind".
+        - Set CRISPY_TEMPLATE_PACK = "tailwind".
+    3. Template Integration:
+        - Include Tailwind via CDN in base.html for quick prototyping: <script src="https://cdn.tailwindcss.com"></script>
+        - Replace Bootstrap classes (container, row, col, btn) with Tailwind utilities (container mx-auto, flex, w-full, px-4 py-2 bg-blue-600).
+        - Use Flexbox and Grid utilities for layout control.
+    4. Form Rendering:
+        - In templates, load tailwind filters: {% load tailwind_filters %}.
+        - The {{ form|crispy }} tag now uses Tailwind styles automatically.
+
+Project Management with uv:
+    uv is a modern, high-performance Python package manager that replaces pip, virtualenv, and pip-tools.
+    - Setup: 'uv init' creates a pyproject.toml.
+    - Dependency Management: 'uv add <package>' automatically updates pyproject.toml and uv.lock.
+    - Environments: 'uv venv' creates a virtual environment; 'uv run' executes commands within that environment without needing manual activation in every session.
+    - Speed: Parallel downloads and a global cache make installations nearly instantaneous.
