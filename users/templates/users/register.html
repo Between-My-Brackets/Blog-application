@@ -2,26 +2,26 @@
 {% load tailwind_filters %}
 
 {% block content %}
-    <div class="max-w-md mx-auto bg-white border border-slate-200 rounded-[2rem] p-10 shadow-sm">
-        <header class="mb-8">
-            <h1 class="text-3xl heading-serif text-slate-900 mb-2">Become a Member</h1>
-            <p class="text-slate-500 font-medium">Join the archive of modern journals.</p>
+    <div class="card-technical max-w-md mx-auto p-10 mt-10 animate-slide-up">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-mongo-navy mb-2 tracking-tight">Register</h1>
+            <p class="text-mongo-gray text-sm">Join the network of modern developers.</p>
         </header>
 
         <form method="POST" class="space-y-6">
             {% csrf_token %}
-            <div class="space-y-4">
+            <div class="space-y-6 text-sm text-mongo-navy">
                 {{ form|crispy }}
             </div>
             
-            <button class="w-full btn-premium py-4 flex justify-center" type="submit">
-                Create Account
+            <button class="w-full btn-mongo py-3 justify-center" type="submit">
+                Initialize Account
             </button>
         </form>
 
         <div class="mt-10 pt-8 border-t border-slate-100 text-center">
-            <p class="text-sm text-slate-500">
-                Already have an account? <a class="font-bold text-slate-900 hover:text-indigo-600 transition" href="{% url 'login' %}">Sign In</a>
+            <p class="text-xs text-mongo-gray">
+                Already registered? <a class="font-bold text-mongo-navy hover:text-mongo-blue transition underline" href="{% url 'login' %}">Return to Sign In</a>
             </p>
         </div>
     </div>

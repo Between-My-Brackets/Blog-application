@@ -1,37 +1,37 @@
 {% extends "blog/base.html" %}
 {% block content %}
-    <div class="mb-12 flex items-center gap-6">
+    <div class="mb-10 flex items-center gap-6">
         <img src="{{ posts.0.author.profile.image.url }}" class="w-16 h-16 rounded-full border-2 border-white shadow-md">
         <div>
-            <h1 class="text-3xl font-serif font-bold text-slate-900">{{ view.kwargs.username }}</h1>
-            <p class="text-sm text-slate-500 font-medium">{{ page_obj.paginator.count }} Published Articles</p>
+            <h1 class="text-3xl font-bold text-mongo-navy tracking-tight">{{ view.kwargs.username }}</h1>
+            <p class="text-mongo-gray font-medium text-sm">{{ page_obj.paginator.count }} Technical Contributions</p>
         </div>
     </div>
 
-    <div class="space-y-8">
+    <div class="space-y-6">
         {% for post in posts %}
-            <article class="post-card-balanced">
-                <div class="flex items-center gap-2 text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-4">
+            <article class="card-technical">
+                <div class="flex items-center gap-2 text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-4">
                     <span>{{ post.date_posted|date:"M d, Y" }}</span>
                     <span>•</span>
                     <span>{{ post.read_time }} min read</span>
                 </div>
                 
-                <h2 class="text-2xl md:text-3xl heading-serif text-slate-900 mb-4 hover:text-indigo-600 transition">
+                <h2 class="text-2xl font-bold text-mongo-navy mb-4 hover:text-mongo-blue transition">
                     <a href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
                 </h2>
                 
-                <p class="text-slate-600 text-base leading-relaxed mb-8 line-clamp-2">
-                    {{ post.content|truncatewords:35 }}
+                <p class="text-mongo-gray text-sm leading-relaxed mb-6 line-clamp-2">
+                    {{ post.content|truncatewords:40 }}
                 </p>
 
                 <div class="flex items-center justify-between">
-                    <a href="{% url 'post-detail' post.id %}" class="text-sm font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1 group">
-                        Read Story
-                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                    <a href="{% url 'post-detail' post.id %}" class="text-xs font-bold text-mongo-blue hover:underline flex items-center gap-1">
+                        View Article
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
                     </a>
                     {% if post.category %}
-                        <span class="text-[10px] font-bold uppercase tracking-widest px-3 py-1 bg-slate-50 text-slate-500 rounded-full border border-slate-100">{{ post.category }}</span>
+                        <span class="accent-pill">{{ post.category }}</span>
                     {% endif %}
                 </div>
             </article>
@@ -39,13 +39,13 @@
     </div>
 
     {% if is_paginated %}
-      <div class="flex justify-center items-center gap-4 mt-20">
+      <div class="flex justify-center items-center gap-4 mt-12">
         {% if page_obj.has_previous %}
-          <a class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-semibold text-slate-600 hover:border-indigo-500 hover:text-indigo-600 transition" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+          <a class="px-4 py-2 bg-white border border-slate-200 rounded text-xs font-bold text-slate-600 hover:border-mongo-blue hover:text-mongo-blue transition" href="?page={{ page_obj.previous_page_number }}">Previous</a>
         {% endif %}
-        <span class="text-sm font-medium text-slate-400">Page {{ page_obj.number }}</span>
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Page {{ page_obj.number }}</span>
         {% if page_obj.has_next %}
-          <a class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-semibold text-slate-600 hover:border-indigo-500 hover:text-indigo-600 transition" href="?page={{ page_obj.next_page_number }}">Next</a>
+          <a class="px-4 py-2 bg-white border border-slate-200 rounded text-xs font-bold text-slate-600 hover:border-mongo-blue hover:text-mongo-blue transition" href="?page={{ page_obj.next_page_number }}">Next</a>
         {% endif %}
       </div>
     {% endif %}

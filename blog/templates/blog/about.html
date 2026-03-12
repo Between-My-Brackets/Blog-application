@@ -1,51 +1,55 @@
 {% extends "blog/base.html" %}
 {% block content %}
-    <div class="bg-white border border-slate-200 rounded-[2.5rem] p-12 lg:p-16 shadow-sm overflow-hidden relative">
-        <!-- Decoration -->
-        <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-50 rounded-full blur-3xl -mr-32 -mt-32"></div>
+    <div class="card-technical p-10 animate-slide-up relative overflow-hidden">
+        <!-- SVG Pattern background -->
+        <div class="absolute top-0 right-0 opacity-[0.03] -mt-10 -mr-10">
+            <svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="120" cy="120" r="110" stroke="#001e2b" stroke-width="20"/>
+            </svg>
+        </div>
 
         <div class="relative z-10">
             <header class="mb-12">
-                <span class="text-xs font-bold text-indigo-600 uppercase tracking-[0.2em] mb-4 block">The Mission</span>
-                <h1 class="text-5xl lg:text-6xl heading-serif text-slate-900 leading-tight">
-                    Publishing with <span class="italic text-indigo-600">intent</span>.
+                <span class="text-xs font-bold text-mongo-blue uppercase tracking-widest mb-4 block">The Mission</span>
+                <h1 class="text-4xl md:text-5xl font-bold text-mongo-navy leading-tight tracking-tight">
+                    Technical clarity <br>for the <span class="text-mongo-blue italic">next billion</span> builders.
                 </h1>
             </header>
             
-            <div class="prose prose-slate lg:prose-lg max-w-none text-slate-600 leading-relaxed mb-16 font-sans">
-                <p class="text-xl text-slate-900 font-medium mb-8">
-                    DjangoBlog is a curated archive where clarity meets conversation.
+            <div class="prose prose-slate max-w-none text-mongo-gray leading-relaxed mb-16 font-sans">
+                <p class="text-lg text-mongo-navy font-semibold mb-6">
+                    DjangoBlog is a technical journal designed for engineers who value data-driven insights and clean architecture.
                 </p>
                 <p>
-                    We believe in the "Balanced Premium" experience. A space that is minimal yet expressive, professional yet inviting. Our platform is built for independent thinkers who value high-signal journals over ephemeral noise.
+                    Inspired by the transparency of modern databases and the efficiency of cloud infrastructure, our platform provides a high-performance environment for sharing deep-dives into software development and data science.
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-                <div class="p-8 bg-slate-50 rounded-3xl border border-slate-100">
-                    <div class="w-12 h-12 bg-white text-indigo-500 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
-                        <i data-lucide="users" class="w-6 h-6"></i>
+                <div class="p-8 bg-mongo-light rounded-xl border border-mongo-border">
+                    <div class="w-10 h-10 bg-white text-mongo-blue rounded-lg flex items-center justify-center mb-6 shadow-sm">
+                        <i data-lucide="layers" class="w-5 h-5"></i>
                     </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">A Shared Journal</h3>
-                    <p class="text-slate-500 text-sm">Join a community of experts and hobbyists sharing deep insights across industries.</p>
+                    <h3 class="text-base font-bold text-mongo-navy mb-2">Structured Insights</h3>
+                    <p class="text-slate-500 text-xs">Articles are categorized and tagged to ensure you find exactly the information you need, fast.</p>
                 </div>
                 
-                <div class="p-8 bg-slate-50 rounded-3xl border border-slate-100">
-                    <div class="w-12 h-12 bg-white text-indigo-500 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
-                        <i data-lucide="zap" class="w-6 h-6"></i>
+                <div class="p-8 bg-mongo-light rounded-xl border border-mongo-border">
+                    <div class="w-10 h-10 bg-white text-mongo-blue rounded-lg flex items-center justify-center mb-6 shadow-sm">
+                        <i data-lucide="server" class="w-5 h-5"></i>
                     </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Precision Built</h3>
-                    <p class="text-slate-500 text-sm">Underpinned by modern Django patterns for performance, security, and long-term stability.</p>
+                    <h3 class="text-base font-bold text-mongo-navy mb-2">Enterprise Grade</h3>
+                    <p class="text-slate-500 text-xs">Built on the robust Django framework with secondary logic systems for SEO and performance.</p>
                 </div>
             </div>
 
-            <div class="flex flex-col sm:flex-row items-center gap-6 p-8 bg-slate-900 rounded-[2.5rem] text-white">
-                <div class="flex-grow text-center sm:text-left">
-                    <h4 class="text-xl font-bold mb-1">Ready to share your voice?</h4>
-                    <p class="text-slate-400 text-sm">Become a contributor in less than a minute.</p>
+            <div class="bg-mongo-navy p-10 rounded-2xl text-white flex flex-col md:flex-row items-center gap-8 shadow-xl">
+                <div class="flex-grow">
+                    <h4 class="text-xl font-bold mb-2">Ready to contribute?</h4>
+                    <p class="text-slate-400 text-sm">Submit your first technical journal entry today.</p>
                 </div>
-                <a href="{% url 'register' %}" class="btn-premium bg-indigo-500 hover:bg-indigo-600 shadow-indigo-500/20 px-8 py-4">
-                    Create Account
+                <a href="{% url 'register' %}" class="btn-mongo py-4 px-10 border-2 border-mongo-blue hover:bg-transparent transition">
+                    Get Started Free
                 </a>
             </div>
         </div>

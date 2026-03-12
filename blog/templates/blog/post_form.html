@@ -2,25 +2,26 @@
 {% load tailwind_filters %}
 
 {% block content %}
-    <div class="bg-white border border-slate-200 rounded-[2rem] p-8 md:p-12 shadow-sm">
-        <header class="mb-10">
-            <h1 class="text-3xl md:text-4xl heading-serif text-slate-900 mb-3">
-                {% if object %} Update Article {% else %} New Contribution {% endif %}
+    <div class="card-technical max-w-2xl mx-auto p-10 animate-slide-up">
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-mongo-navy mb-2 tracking-tight">
+                {% if object %} Edit Documentation {% else %} New Entry {% endif %}
             </h1>
-            <p class="text-slate-500 font-medium">Shape your thoughts into a professional journal entry.</p>
+            <p class="text-mongo-gray text-sm font-medium">Contribute your technical insights to the DjangoBlog archive.</p>
         </header>
 
-        <form method="POST" class="space-y-8">
+        <form method="POST" class="space-y-6">
             {% csrf_token %}
-            <div class="space-y-6">
+            <div class="space-y-6 text-sm text-mongo-navy">
                 {{ form|crispy }}
             </div>
             
             <div class="flex items-center gap-6 pt-6 border-t border-slate-100">
-                <button class="btn-premium py-3.5 px-10" type="submit">
-                    Publish Journal
+                <button class="btn-mongo px-10 py-3" type="submit">
+                    <i data-lucide="upload-cloud" class="w-4 h-4"></i>
+                    Save Publication
                 </button>
-                <a href="{% url 'blog-home' %}" class="text-sm font-bold text-slate-400 hover:text-slate-600 transition uppercase tracking-widest">Cancel</a>
+                <a href="{% url 'blog-home' %}" class="text-xs font-bold text-slate-400 hover:text-mongo-navy transition uppercase tracking-widest">Discard changes</a>
             </div>
         </form>
     </div>
