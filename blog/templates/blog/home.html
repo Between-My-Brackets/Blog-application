@@ -1,25 +1,25 @@
 {% extends "blog/base.html" %}
 {% block content %}
-    <div class="mb-16">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl heading-serif text-slate-900 mb-6 leading-tight">
-            Curated insights for the <span class="text-indigo-600 italic">modern</span> creator.
-        </h1>
-        <form method="GET" action="{% url 'blog-home' %}" class="relative max-w-xl">
+    <div class="mb-10">
+        <h1 class="text-4xl font-bold text-mongo-navy mb-4 tracking-tight">The developer journal for <span class="text-mongo-blue italic">modern</span> architecture.</h1>
+        <p class="text-mongo-gray text-lg max-w-xl mb-8">Deep dives into engineering, data, and the future of the web.</p>
+        
+        <form method="GET" action="{% url 'blog-home' %}" class="relative max-w-md">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
             </div>
-            <input type="text" name="q" placeholder="Explore the archive..." class="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-500 transition shadow-sm text-sm">
+            <input type="text" name="q" placeholder="Search articles..." class="input-technical pl-11">
         </form>
     </div>
 
-    <div class="space-y-8">
+    <div class="space-y-6">
         {% for post in posts %}
-            <article class="post-card-balanced">
-                <div class="flex items-center gap-4 mb-6">
-                    <img src="{{ post.author.profile.image.url }}" class="w-10 h-10 rounded-full border border-slate-100 shadow-sm">
+            <article class="card-technical">
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="{{ post.author.profile.image.url }}" class="w-8 h-8 rounded-full border border-slate-100">
                     <div>
-                        <a href="{% url 'user-posts' post.author.username %}" class="text-sm font-bold text-slate-900 hover:text-indigo-600 transition">{{ post.author }}</a>
-                        <div class="flex items-center gap-2 text-[11px] text-slate-400 font-medium">
+                        <a href="{% url 'user-posts' post.author.username %}" class="text-xs font-bold text-mongo-navy hover:text-mongo-blue transition">{{ post.author }}</a>
+                        <div class="flex items-center gap-2 text-[10px] text-slate-400 font-medium">
                             <span>{{ post.date_posted|date:"M d, Y" }}</span>
                             <span>•</span>
                             <span>{{ post.read_time }} min read</span>
@@ -27,42 +27,42 @@
                     </div>
                 </div>
                 
-                <h2 class="text-2xl md:text-3xl heading-serif text-slate-900 mb-4 hover:text-indigo-600 transition">
+                <h2 class="text-2xl font-bold text-mongo-navy mb-3 hover:text-mongo-blue transition">
                     <a href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
                 </h2>
                 
-                <p class="text-slate-600 text-base leading-relaxed mb-8 line-clamp-3">
-                    {{ post.content|truncatewords:40 }}
+                <p class="text-mongo-gray text-sm leading-relaxed mb-6 line-clamp-2">
+                    {{ post.content|truncatewords:45 }}
                 </p>
 
-                <div class="flex items-center justify-between mt-auto">
-                    <a href="{% url 'post-detail' post.id %}" class="text-sm font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1 group">
-                        Read Full Article
-                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                <div class="flex items-center justify-between">
+                    <a href="{% url 'post-detail' post.id %}" class="text-xs font-bold text-mongo-blue hover:underline flex items-center gap-1">
+                        Read More
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
                     </a>
                     {% if post.category %}
-                        <span class="text-[10px] font-bold uppercase tracking-widest px-3 py-1 bg-slate-50 text-slate-500 rounded-full border border-slate-100">{{ post.category }}</span>
+                        <span class="accent-pill">{{ post.category }}</span>
                     {% endif %}
                 </div>
             </article>
         {% empty %}
-            <div class="text-center py-20 bg-white rounded-3xl border border-slate-100 shadow-sm">
-                <i data-lucide="book-open" class="w-12 h-12 text-slate-200 mx-auto mb-4"></i>
-                <p class="text-slate-500 italic">No journals found in this archive.</p>
+            <div class="text-center py-20 bg-white border border-slate-100 rounded-xl">
+                <i data-lucide="book" class="w-10 h-10 text-slate-200 mx-auto mb-4"></i>
+                <p class="text-slate-500 font-medium">No journals found in the archive.</p>
             </div>
         {% endfor %}
     </div>
 
     {% if is_paginated %}
-      <div class="flex justify-center items-center gap-4 mt-20">
+      <div class="flex justify-center items-center gap-4 mt-12">
         {% if page_obj.has_previous %}
-          <a class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-semibold text-slate-600 hover:border-indigo-500 hover:text-indigo-600 transition" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+          <a class="px-4 py-2 bg-white border border-slate-200 rounded text-xs font-bold text-slate-600 hover:border-mongo-blue hover:text-mongo-blue transition" href="?page={{ page_obj.previous_page_number }}">Previous</a>
         {% endif %}
         
-        <div class="text-sm font-medium text-slate-400">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</div>
+        <div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</div>
 
         {% if page_obj.has_next %}
-          <a class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-semibold text-slate-600 hover:border-indigo-500 hover:text-indigo-600 transition" href="?page={{ page_obj.next_page_number }}">Next</a>
+          <a class="px-4 py-2 bg-white border border-slate-200 rounded text-xs font-bold text-slate-600 hover:border-mongo-blue hover:text-mongo-blue transition" href="?page={{ page_obj.next_page_number }}">Next</a>
         {% endif %}
       </div>
     {% endif %}

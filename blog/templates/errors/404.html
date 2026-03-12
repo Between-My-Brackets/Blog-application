@@ -1,9 +1,12 @@
 {% extends "blog/base.html" %}
 {% block content %}
-    <div class="fade-in text-center py-40">
-        <h1 class="text-9xl heading-serif mb-8 text-gray-100">404</h1>
-        <h2 class="text-2xl heading-serif mb-6 italic">This corner of the archive is empty.</h2>
-        <p class="text-sm text-gray-400 uppercase tracking-widest mb-12">The page you seek does not exist or has been removed.</p>
-        <a href="{% url 'blog-home' %}" class="btn-minimal rounded-sm px-10 py-4 inline-block">Return to Foundation</a>
+    <div class="max-w-2xl mx-auto bg-white border border-slate-200 rounded-[2.5rem] p-16 shadow-sm text-center reveal">
+        <div class="w-24 h-24 bg-indigo-50 rounded-3xl flex items-center justify-center text-indigo-500 mx-auto mb-10">
+            <i data-lucide="compass" class="w-12 h-12"></i>
+        </div>
+        <h1 class="text-7xl font-serif font-bold text-slate-100 mb-4">404</h1>
+        <h2 class="text-3xl heading-serif text-slate-900 mb-6 italic">Lost in the archive.</h2>
+        <p class="text-slate-500 font-medium mb-12">The journal you're looking for doesn't exist or has been moved to another wing.</p>
+        <a href="{% url 'blog-home' %}" class="btn-premium px-12 py-4">Return to Foundation</a>
     </div>
 {% endblock content %}
